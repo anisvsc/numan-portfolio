@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import CustomLink from "@/components/ui/CustomLink";
 import MainLayout from '../components/MainLayout';
-import TypingAnimation from "@/components/ui/typing-animation";
-import TextGenerateEffect from "@/components/ui/text-generate-effect";
+import TypingAnimation from "@/components/ui/typing-animation"; // Ensure the correct casing of your imports
+import TextGenerateEffect from "@/components/ui/text-generate-effect"; 
 import CustomSpotify from "@/components/ui/SpotifyWidget"; 
-import { Dock } from "@/components/ui/dock"; 
 import { useTheme } from 'next-themes'; 
 
 const IndexPage: React.FC = () => {
@@ -24,13 +23,14 @@ const IndexPage: React.FC = () => {
         setParagraphs(prev => [...prev, paragraph]);
       }
     };
+    
     addParagraphsSequentially();
   }, []);
 
   return (
     <MainLayout>
       <div className={`min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
-        <section className={`flex flex-col items-center text-center max-w-2xl mx-auto py-10 px-6 rounded-lg shadow-xl mt-20`}>
+        <section className="flex flex-col items-center text-center max-w-2xl mx-auto py-10 px-6 rounded-lg shadow-xl mt-20">
           <div className="mb-8">
             <TypingAnimation className="text-5xl font-bold" text="Hi, I am Numan Khan" />
             <p className="text-lg mt-4">
@@ -64,9 +64,6 @@ const IndexPage: React.FC = () => {
           </div>
         </section>
 
-        <div className="fixed bottom-4 right-4">
-          <Dock className="bg-gray-200 dark:bg-gray-800 rounded-md p-2" />
-        </div>
 
         <footer className="text-center p-4">
           <p>Built using Next.js, Tailwind, and MDX.</p>
