@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "next-themes"; // Import useTheme for theme toggling
+import { defaultLayout } from "@nextui-org/react";
 
 export const FloatingDock = ({
   items,
@@ -267,7 +268,7 @@ function ProfilePicButton({ mouseX }: { mouseX: MotionValue }) {
         {imageLoaded && (
           <Image
             src="/pfp.webp"
-            alt="User profile"
+            alt=""
             width={size}
             height={size}
             className="rounded-full object-cover"
@@ -278,6 +279,5 @@ function ProfilePicButton({ mouseX }: { mouseX: MotionValue }) {
     </Link>
   );
 }
-
 
 export default FloatingDock;

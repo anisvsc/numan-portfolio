@@ -15,10 +15,10 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    setMounted(true);  // Ensures the component is mounted before rendering theme-dependent content
+    setMounted(true);  
   }, []);
 
-  if (!mounted) return null; // Render nothing until mounted
+  if (!mounted) return null;
 
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
@@ -35,7 +35,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       <footer className="p-4">
         <p className="text-center text-sm">
-          © 2024 Numan's Portfolio
+          © 2024 Numan&apos;s Portfolio
         </p>
       </footer>
     </div>
