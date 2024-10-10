@@ -3,7 +3,7 @@ import CustomLink from "@/components/ui/CustomLink";
 import MainLayout from '../components/MainLayout';
 import TypingAnimation from "@/components/ui/typing-animation";
 import TextGenerateEffect from "@/components/ui/text-generate-effect";
-import CustomSpotify from "@/components/ui/spotifywidget"; 
+import CustomSpotify from "@/components/ui/SpotifyWidget"; 
 import { Dock } from "@/components/ui/dock"; 
 import { useTheme } from 'next-themes'; 
 
