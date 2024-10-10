@@ -12,17 +12,24 @@ import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "next-themes"; // Import useTheme for theme toggling
-import { defaultLayout } from "@nextui-org/react";
+
+export interface FloatingDockItem {
+  title: string;
+  icon: React.ReactNode;
+  href: string;
+}
+
+interface FloatingDockProps {
+  items: FloatingDockItem[];
+  desktopClassName?: string;
+  mobileClassName?: string;
+}
 
 export const FloatingDock = ({
   items,
   desktopClassName,
   mobileClassName,
-}: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
-  desktopClassName?: string;
-  mobileClassName?: string;
-}) => {
+}: FloatingDockProps) => {
   const { theme, setTheme } = useTheme(); // Access theme and setTheme
   const [mounted, setMounted] = useState(false);
 
@@ -57,17 +64,19 @@ export const FloatingDock = ({
   );
 };
 
+interface FloatingDockMobileProps {
+  items: FloatingDockItem[];
+  className?: string;
+  isDarkMode: boolean;
+  toggleTheme: () => void;
+}
+
 const FloatingDockMobile = ({
   items,
   className,
   isDarkMode,
   toggleTheme,
-}: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
-  className?: string;
-  isDarkMode: boolean;
-  toggleTheme: () => void;
-}) => {
+}: FloatingDockMobileProps) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -124,17 +133,19 @@ const FloatingDockMobile = ({
   );
 };
 
+interface FloatingDockDesktopProps {
+  items: FloatingDockItem[];
+  className?: string;
+  isDarkMode: boolean;
+  toggleTheme: () => void;
+}
+
 const FloatingDockDesktop = ({
   items,
   className,
   isDarkMode,
   toggleTheme,
-}: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
-  className?: string;
-  isDarkMode: boolean;
-  toggleTheme: () => void;
-}) => {
+}: FloatingDockDesktopProps) => {
   const mouseX = useMotionValue(Infinity);
 
   return (
@@ -167,17 +178,19 @@ const FloatingDockDesktop = ({
   );
 };
 
+interface IconContainerProps {
+  mouseX: MotionValue;
+  title: string;
+  icon: React.ReactNode;
+  href: string;
+}
+
 function IconContainer({
   mouseX,
   title,
   icon,
   href,
-}: {
-  mouseX: MotionValue;
-  title: string;
-  icon: React.ReactNode;
-  href: string;
-}) {
+}: IconContainerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const distance = useTransform(mouseX, (val) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
@@ -272,12 +285,13 @@ function ProfilePicButton({ mouseX }: { mouseX: MotionValue }) {
             width={size}
             height={size}
             className="rounded-full object-cover"
-            onError={() => setImageLoaded(false)}
+            onLoadingComplete={() => setImageLoaded(true)}
           />
         )}
       </motion.div>
     </Link>
   );
 }
+
 
 export default FloatingDock;

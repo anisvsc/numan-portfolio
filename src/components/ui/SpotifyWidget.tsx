@@ -32,6 +32,9 @@ interface Track {
     size: string;
     '#text': string;
   }>;
+  '@attr'?: {
+    nowplaying?: string;
+  };
 }
 
 const CustomSpotify = () => {
@@ -41,8 +44,8 @@ const CustomSpotify = () => {
     const fetchRecentTracks = async () => {
       try {
         const response = await axios.get(link);
-        const tracks = response.data.recenttracks.track;
-        const nowPlayingTrack = tracks.find((track: any) => track['@attr']?.nowplaying);
+        const tracks: Track[] = response.data.recenttracks.track;
+        const nowPlayingTrack = tracks.find((track) => track['@attr']?.nowplaying);
         setCurrentTrack(nowPlayingTrack || null);
       } catch (error) {
         console.error('Error fetching recent tracks:', error);
