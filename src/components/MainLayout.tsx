@@ -11,10 +11,19 @@ const navItems = [
 ];
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);  // Ensures the component is mounted before rendering theme-dependent content
+  }, []);
+
+  if (!mounted) return null; // Render nothing until mounted
+
+  const currentTheme = theme === 'system' ? systemTheme : theme;
 
   return (
-    <div className={`min-h-screen flex flex-col bg-black`}>
+    <div className={`min-h-screen flex flex-col ${currentTheme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {/* FloatingDock moved to the top */}
       <div className="absolute left-1/2 top-4 transform -translate-x-1/2 flex items-center">
         <FloatingDock items={navItems} />
@@ -25,7 +34,9 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </main>
 
       <footer className="p-4">
-        <p className="text-center text-sm text-white">© 2024 Numan's Portfolio</p>
+        <p className="text-center text-sm">
+          © 2024 Numan's Portfolio
+        </p>
       </footer>
     </div>
   );

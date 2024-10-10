@@ -5,12 +5,10 @@ import { ThemeProvider } from 'next-themes'; // Import ThemeProvider for theme h
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider attribute="class"> {/* Provide theme context */}
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}> {/* Ensure system theme is respected */}
       <Component {...pageProps} /> {/* Render the active page */}
     </ThemeProvider>
   );
 }
-
-
 
 export default MyApp; // Export the app component

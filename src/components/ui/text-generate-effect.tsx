@@ -17,10 +17,9 @@ export const TextGenerateEffect: React.FC<TextGenerateEffectProps> = ({
   duration = 0.5,
 }) => {
   const [scope, animate] = useAnimate();
-  const wordsArray = words.split(" "); // Split words into an array
+  const wordsArray = words.split(" ");
 
   useEffect(() => {
-    // Trigger the animation for the words
     animate(
       "span",
       {
@@ -32,14 +31,14 @@ export const TextGenerateEffect: React.FC<TextGenerateEffectProps> = ({
         delay: stagger(0.2),
       }
     );
-  }, [scope.current, animate, duration, filter]); // Added animate to dependencies
+  }, [scope.current, animate, duration, filter]);
 
   const renderWords = () => (
     <motion.div ref={scope}>
       {wordsArray.map((word, idx) => (
         <motion.span
           key={word + idx}
-          className="dark:text-white text-black opacity-0"
+          className="text-black dark:text-white opacity-0"
           style={{
             filter: filter ? "blur(10px)" : "none",
           }}
@@ -51,11 +50,9 @@ export const TextGenerateEffect: React.FC<TextGenerateEffectProps> = ({
   );
 
   return (
-    <div className={cn("font-bold", className)}>
-      <div className="mt-4">
-        <div className="dark:text-white text-black text-2xl leading-snug tracking-wide">
-          {renderWords()}
-        </div>
+    <div className={cn(className)}>
+      <div className="mt-4 text-gray-300 text-base leading-relaxed tracking-wide"> {/* Adjusted styling here */}
+        {renderWords()}
       </div>
     </div>
   );

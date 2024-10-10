@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
+import { IconLayoutNavbarCollapse, IconSun, IconMoon } from "@tabler/icons-react"; // Import the icons for light/dark mode
 import {
   AnimatePresence,
   MotionValue,
@@ -9,8 +9,9 @@ import {
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import { useTheme } from "next-themes"; // Import useTheme for theme toggling
 
 export const FloatingDock = ({
   items,
@@ -21,10 +22,36 @@ export const FloatingDock = ({
   desktopClassName?: string;
   mobileClassName?: string;
 }) => {
+  const { theme, setTheme } = useTheme(); // Access theme and setTheme
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure the component is mounted before rendering to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  const isDarkMode = theme === "dark";
+
+  const toggleTheme = () => {
+    setTheme(isDarkMode ? "light" : "dark");
+  };
+
   return (
     <>
-      <FloatingDockDesktop items={items} className={desktopClassName} />
-      <FloatingDockMobile items={items} className={mobileClassName} />
+      <FloatingDockDesktop
+        items={items}
+        className={desktopClassName}
+        isDarkMode={isDarkMode}
+        toggleTheme={toggleTheme}
+      />
+      <FloatingDockMobile
+        items={items}
+        className={mobileClassName}
+        isDarkMode={isDarkMode}
+        toggleTheme={toggleTheme}
+      />
     </>
   );
 };
@@ -32,9 +59,13 @@ export const FloatingDock = ({
 const FloatingDockMobile = ({
   items,
   className,
+  isDarkMode,
+  toggleTheme,
 }: {
   items: { title: string; icon: React.ReactNode; href: string }[];
   className?: string;
+  isDarkMode: boolean;
+  toggleTheme: () => void;
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -69,11 +100,24 @@ const FloatingDockMobile = ({
           </motion.div>
         )}
       </AnimatePresence>
+
       <button
         onClick={() => setOpen(!open)}
         className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center"
       >
         <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+      </button>
+
+      {/* Dark Mode Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center ml-2"
+      >
+        {isDarkMode ? (
+          <IconSun className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+        ) : (
+          <IconMoon className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+        )}
       </button>
     </div>
   );
@@ -82,9 +126,13 @@ const FloatingDockMobile = ({
 const FloatingDockDesktop = ({
   items,
   className,
+  isDarkMode,
+  toggleTheme,
 }: {
   items: { title: string; icon: React.ReactNode; href: string }[];
   className?: string;
+  isDarkMode: boolean;
+  toggleTheme: () => void;
 }) => {
   const mouseX = useMotionValue(Infinity);
 
@@ -102,6 +150,18 @@ const FloatingDockDesktop = ({
       {items.map((item) => (
         <IconContainer mouseX={mouseX} key={item.title} {...item} />
       ))}
+
+      {/* Dark Mode Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center ml-2"
+      >
+        {isDarkMode ? (
+          <IconSun className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+        ) : (
+          <IconMoon className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+        )}
+      </button>
     </motion.div>
   );
 };
@@ -202,26 +262,22 @@ function ProfilePicButton({ mouseX }: { mouseX: MotionValue }) {
       <motion.div
         ref={ref}
         style={{ width: size, height: size }}
-        className="aspect-square rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center relative"
+        className="aspect-square rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center"
       >
-        {imageLoaded ? (
+        {imageLoaded && (
           <Image
             src="/pfp.webp"
-            alt="Profile Picture"
-            width={1000}
-            height={1000}
-            className="rounded-full"
-            onLoad={() => setImageLoaded(true)}
+            alt="User profile"
+            width={size}
+            height={size}
+            className="rounded-full object-cover"
             onError={() => setImageLoaded(false)}
           />
-        ) : (
-          <div className="h-full w-full flex items-center justify-center bg-gray-300 rounded-full">
-            <span className="text-gray-500">👤</span>
-          </div>
         )}
       </motion.div>
     </Link>
   );
 }
+
 
 export default FloatingDock;

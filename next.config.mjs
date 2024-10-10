@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    images: {
+      domains: ['lastfm.freetls.fastly.net', 'github.com'], 
+    },
+  };
+  
+  export default nextConfig;
+  

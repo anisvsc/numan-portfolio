@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { cn } from "@/lib/utils";
 
 interface TypingAnimationProps {
@@ -21,8 +20,8 @@ export default function TypingAnimation({
   useEffect(() => {
     const typingEffect = setInterval(() => {
       if (i < text.length) {
-        setDisplayedText(text.substring(0, i + 1));
-        setI(i + 1);
+        setDisplayedText((prev) => prev + text[i]); // Append the next character
+        setI((prev) => prev + 1); // Increment the index
       } else {
         clearInterval(typingEffect);
       }
@@ -31,16 +30,18 @@ export default function TypingAnimation({
     return () => {
       clearInterval(typingEffect);
     };
-  }, [duration, i]);
+  }, [duration, i, text]);
 
   return (
     <h1
       className={cn(
-        "font-display text-center text-4xl font-bold leading-[5rem] tracking-[-0.02em] drop-shadow-sm",
-        className,
+        "font-display text-center text-5xl font-semibold leading-[5rem] tracking-wide drop-shadow-md transition-all duration-300", // Adjusted styling for a softer look
+        className
       )}
     >
-      {displayedText ? displayedText : text}
+      {displayedText}
+      <span className="blinking-cursor">|</span> {/* Add a blinking cursor effect */}
     </h1>
   );
 }
+  
