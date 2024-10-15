@@ -236,22 +236,29 @@ function IconContainer({ mouseX, title, icon, href }: IconContainerProps) {
 }
 
 function ProfilePicButton() {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+
   return (
     <Link
       href="/"
       className="aspect-square rounded-full bg-gradient-to-br from-yellow-400 to-yellow-300 flex items-center justify-center"
     >
-      <Image
-        alt="avatar"
-        src="/avatar.png"
-        width={30}
-        height={30}
-        className="rounded-full"
-      />
+      {imageLoaded ? (
+        <Image
+          src="/pfp.webp" // Ensure this path is correct
+          alt="Profile Picture"
+          width={30}
+          height={30}
+          className="rounded-full object-cover"
+          onLoadingComplete={() => setImageLoaded(true)} 
+        />
+      ) : (
+        <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div> // Placeholder while loading
+      )}
     </Link>
   );
 }
-
 
 
 export default FloatingDock;
