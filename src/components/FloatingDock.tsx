@@ -1,17 +1,10 @@
 import { cn } from "@/lib/utils";
-import { IconLayoutNavbarCollapse, IconSun, IconMoon } from "@tabler/icons-react"; // Import the icons for light/dark mode
-import {
-  AnimatePresence,
-  MotionValue,
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { IconLayoutNavbarCollapse, IconSun, IconMoon } from "@tabler/icons-react"; 
+import { AnimatePresence, MotionValue, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { useTheme } from "next-themes"; // Import useTheme for theme toggling
+import { useTheme } from "next-themes"; 
 
 export interface FloatingDockItem {
   title: string;
@@ -25,15 +18,10 @@ interface FloatingDockProps {
   mobileClassName?: string;
 }
 
-export const FloatingDock = ({
-  items,
-  desktopClassName,
-  mobileClassName,
-}: FloatingDockProps) => {
-  const { theme, setTheme } = useTheme(); // Access theme and setTheme
+export const FloatingDock = ({ items, desktopClassName, mobileClassName }: FloatingDockProps) => {
+  const { theme, setTheme } = useTheme(); 
   const [mounted, setMounted] = useState(false);
 
-  // Ensure the component is mounted before rendering to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -71,12 +59,7 @@ interface FloatingDockMobileProps {
   toggleTheme: () => void;
 }
 
-const FloatingDockMobile = ({
-  items,
-  className,
-  isDarkMode,
-  toggleTheme,
-}: FloatingDockMobileProps) => {
+const FloatingDockMobile = ({ items, className, isDarkMode, toggleTheme }: FloatingDockMobileProps) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -140,12 +123,7 @@ interface FloatingDockDesktopProps {
   toggleTheme: () => void;
 }
 
-const FloatingDockDesktop = ({
-  items,
-  className,
-  isDarkMode,
-  toggleTheme,
-}: FloatingDockDesktopProps) => {
+const FloatingDockDesktop = ({ items, className, isDarkMode, toggleTheme }: FloatingDockDesktopProps) => {
   const mouseX = useMotionValue(Infinity);
 
   return (
@@ -157,7 +135,7 @@ const FloatingDockDesktop = ({
         className
       )}
     >
-      <ProfilePicButton mouseX={mouseX} />
+      <ProfilePicButton />
 
       {items.map((item) => (
         <IconContainer mouseX={mouseX} key={item.title} {...item} />
@@ -185,12 +163,7 @@ interface IconContainerProps {
   href: string;
 }
 
-function IconContainer({
-  mouseX,
-  title,
-  icon,
-  href,
-}: IconContainerProps) {
+function IconContainer({ mouseX, title, icon, href }: IconContainerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const distance = useTransform(mouseX, (val) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
@@ -254,10 +227,7 @@ function IconContainer({
             </motion.div>
           )}
         </AnimatePresence>
-        <motion.div
-          style={{ width: widthIcon, height: heightIcon }}
-          className="flex items-center justify-center"
-        >
+        <motion.div style={{ width: widthIcon, height: heightIcon }}>
           {icon}
         </motion.div>
       </motion.div>
@@ -265,33 +235,23 @@ function IconContainer({
   );
 }
 
-function ProfilePicButton({ mouseX }: { mouseX: MotionValue }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [imageLoaded, setImageLoaded] = useState(true);
-
-  const size = 42;
-
+function ProfilePicButton() {
   return (
-    <Link href="/">
-      <motion.div
-        ref={ref}
-        style={{ width: size, height: size }}
-        className="aspect-square rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center"
-      >
-        {imageLoaded && (
-          <Image
-            src="/pfp.webp"
-            alt=""
-            width={size}
-            height={size}
-            className="rounded-full object-cover"
-            onLoadingComplete={() => setImageLoaded(true)}
-          />
-        )}
-      </motion.div>
+    <Link
+      href="/"
+      className="aspect-square rounded-full bg-gradient-to-br from-yellow-400 to-yellow-300 flex items-center justify-center"
+    >
+      <Image
+        alt="avatar"
+        src="/avatar.png"
+        width={30}
+        height={30}
+        className="rounded-full"
+      />
     </Link>
   );
 }
+
 
 
 export default FloatingDock;
