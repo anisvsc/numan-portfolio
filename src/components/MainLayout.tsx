@@ -24,12 +24,12 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className={`min-h-screen flex flex-col ${currentTheme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      {/* FloatingDock moved to the top */}
-      <div className="absolute left-1/2 top-4 transform -translate-x-1/2 flex items-center">
+      {/* Fixed FloatingDock at the top */}
+      <div className="fixed left-1/2 top-4 transform -translate-x-1/2 flex items-center z-50">
         <FloatingDock items={navItems} />
       </div>
 
-      <main className="flex-grow p-4">
+      <main className="flex-grow p-4 mt-16"> {/* Added mt-16 to create space for the fixed navbar */}
         {children}
       </main>
 
