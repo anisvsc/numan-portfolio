@@ -15,24 +15,21 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    setMounted(true);  
+    setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
+  if (!mounted) return null; // You could show a loader here
+  
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
   return (
     <div className={`min-h-screen flex flex-col ${currentTheme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      {/* Fixed FloatingDock at the top */}
       <div className="fixed left-1/2 top-4 transform -translate-x-1/2 flex items-center z-50">
         <FloatingDock items={navItems} />
       </div>
-
-      <main className="flex-grow p-4 mt-16"> {/* Added mt-16 to create space for the fixed navbar */}
+      <main className="flex-grow p-4 mt-20 max-w-7xl mx-auto">
         {children}
       </main>
-
       <footer className="p-4">
         <p className="text-center text-sm">
           © 2024 Numan&apos;s Portfolio
