@@ -19,15 +19,15 @@ const SpotifyIcon = () => (
 );
 
 interface Track {
-  artist: {
+  'artist': {
     '#text': string;
   };
-  album: {
+  'album': {
     '#text': string;
   };
-  name: string;
-  image: Array<{
-    size: string;
+  'name': string;
+  'image': Array<{
+    'size': string;
     '#text': string;
   }>;
   '@attr'?: {
@@ -55,7 +55,7 @@ const CustomSpotify = () => {
 
   return (
     <div className="bg-[#1a1a1a] p-5 rounded-xl shadow-md group transition-all duration-200 transform hover:scale-100 flex items-center space-x-4 hover:bg-[#1e1e1e]">
-      <SpotifyIcon />
+      {!currentTrack && <SpotifyIcon />}
       {currentTrack ? (
         <div className="flex items-center space-x-4">
           {currentTrack.image[3]?.['#text'] && (
@@ -68,9 +68,7 @@ const CustomSpotify = () => {
             />
           )}
           <div className="flex flex-col">
-            <h3 className="text-white font-bold text-lg group-hover:text-green-400 transition-colors duration-200">
-              {currentTrack.name}
-            </h3>
+            <h3 className="text-white font-bold text-lg group-hover:text-green-400 transition-colors duration-200">{currentTrack.name}</h3>
             <p className="text-gray-400 text-sm group-hover:opacity-80 transition-opacity duration-200">by {currentTrack.artist['#text']}</p>
             <p className="text-gray-500 text-xs group-hover:opacity-70 transition-opacity duration-200">on {currentTrack.album['#text']}</p>
           </div>
